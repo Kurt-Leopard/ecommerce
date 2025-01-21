@@ -32,18 +32,36 @@ export default function Checkbox(props) {
         </div>
       )}
 
-      {options.map((option, i) => (
-        <div key={i} className="flex items-center gap-x-2">
-          <input
-            id={`${state_name}-${i}`}
-            type="checkbox"
-            value={option.value}
-            onChange={entryOnChange}
-            checked={isChecked(option.value)}
-          />
-          <label htmlFor={`${state_name}-${i}`}>{option.label}</label>
-        </div>
-      ))}
+      {options.map((option, i) => {
+        const styledHTML = option.label.replace(
+          /<a /g,
+          '<a style="color: #0C4A6E;" '
+        );
+        return (
+          <div key={i} className="flex items-center gap-x-2">
+            <input
+              id={`${state_name}-${i}`}
+              name={`${state_name}-${i}`}
+              type="checkbox"
+              value={option.value}
+              onChange={entryOnChange}
+              checked={isChecked(option.value)}
+            />
+
+            {state_name == "checkbox" ? (
+              <label
+                htmlFor={`${state_name}-${i}`}
+                dangerouslySetInnerHTML={{ __html: styledHTML }}
+                className="text-[12px]"
+              />
+            ) : (
+              <>
+                <label htmlFor={`${state_name}-${i}`}>{option.label}</label>
+              </>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
